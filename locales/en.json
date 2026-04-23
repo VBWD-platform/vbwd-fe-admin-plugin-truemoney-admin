@@ -1,0 +1,15 @@
+{
+  "truemoneyAdmin": {
+    "transactions": {
+      "title": "TrueMoney transactions",
+      "loading": "Loading…",
+      "empty": "No TrueMoney transactions yet.",
+      "invoiceNo": "Invoice",
+      "amount": "Amount",
+      "status": "Status",
+      "transactionId": "TrueMoney TX ID",
+      "createdAt": "Created",
+      "refund": "Refund"
+    }
+  }
+}
