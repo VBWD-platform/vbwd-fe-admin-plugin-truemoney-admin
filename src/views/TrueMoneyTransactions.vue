@@ -4,10 +4,20 @@
       <h2>{{ $t('truemoneyAdmin.transactions.title') }}</h2>
     </header>
 
-    <div v-if="loading">{{ $t('truemoneyAdmin.transactions.loading') }}</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
+    <div v-if="loading">
+      {{ $t('truemoneyAdmin.transactions.loading') }}
+    </div>
+    <div
+      v-else-if="error"
+      class="error"
+    >
+      {{ error }}
+    </div>
 
-    <table v-else-if="transactions.length > 0" class="txtable">
+    <table
+      v-else-if="transactions.length > 0"
+      class="txtable"
+    >
       <thead>
         <tr>
           <th>{{ $t('truemoneyAdmin.transactions.invoiceNo') }}</th>
@@ -15,11 +25,14 @@
           <th>{{ $t('truemoneyAdmin.transactions.status') }}</th>
           <th>{{ $t('truemoneyAdmin.transactions.transactionId') }}</th>
           <th>{{ $t('truemoneyAdmin.transactions.createdAt') }}</th>
-          <th></th>
+          <th />
         </tr>
       </thead>
       <tbody>
-        <tr v-for="tx in transactions" :key="tx.id">
+        <tr
+          v-for="tx in transactions"
+          :key="tx.id"
+        >
           <td>{{ tx.invoice_no }}</td>
           <td>{{ tx.amount }} {{ tx.currency }}</td>
           <td>
@@ -40,7 +53,12 @@
       </tbody>
     </table>
 
-    <div v-else class="empty">{{ $t('truemoneyAdmin.transactions.empty') }}</div>
+    <div
+      v-else
+      class="empty"
+    >
+      {{ $t('truemoneyAdmin.transactions.empty') }}
+    </div>
   </div>
 </template>
 
