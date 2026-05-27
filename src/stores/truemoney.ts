@@ -17,17 +17,24 @@ export interface TrueMoneyTransaction {
   updated_at: string | null;
 }
 
+/** Minimal surface of the host's ``@/api`` ApiClient — promise-returning,
+    already-parsed body. Each plugin types its store against this so the
+    view can pass ``api`` from the host without TS complaints. */
+interface ApiClientLike {
+  get<T = unknown>(url: string, config?: unknown): Promise<T>;
+  post<T = unknown>(url: string, body?: unknown, config?: unknown): Promise<T>;
+}
+
 export const useTrueMoneyStore = defineStore('truemoney-admin', () => {
   const transactions = ref<TrueMoneyTransaction[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
 
-  async function fetchTransactions(api: { get: typeof fetch }) {
+  async function fetchTransactions(api: ApiClientLike) {
     loading.value = true;
     error.value = null;
     try {
-      const resp = await api.get('/api/v1/plugins/truemoney/transactions');
-      const body = await resp.json();
+      const body = await api.get<{ transactions: TrueMoneyTransaction[] }>('/api/v1/plugins/truemoney/transactions');
       transactions.value = body.transactions || [];
     } catch (e) {
       error.value = e instanceof Error ? e.message : 'Failed to load';
@@ -39,18 +46,12 @@ export const useTrueMoneyStore = defineStore('truemoney-admin', () => {
   async function refund(
     invoiceNo: string,
     amount: number | null,
-    api: {
-      post: (url: string, body: unknown) => Promise<Response>;
-    },
+    api: ApiClientLike,
   ) {
-    const resp = await api.post(
+    return api.post(
       `/api/v1/plugins/truemoney/transactions/${invoiceNo}/refund`,
       amount !== null ? { amount } : {},
     );
-    if (!resp.ok) {
-      throw new Error(`refund failed: ${resp.status}`);
-    }
-    return resp.json();
   }
 
   return { transactions, loading, error, fetchTransactions, refund };
