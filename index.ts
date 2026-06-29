@@ -2,7 +2,7 @@ import type { IPlugin, IPlatformSDK } from 'vbwd-view-component';
 
 export const trueMoneyAdminPlugin: IPlugin = {
   name: 'truemoney-admin',
-  version: '26.6',
+  version: '26.6.1',
   description:
     'TrueMoney admin — transactions list + refund. Config lives in core Settings → Plugins.',
 
